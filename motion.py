@@ -23,18 +23,18 @@ else:
 
 # initialize the first frame in the video stream
 firstFrame = None
-
-
+pastFrame = None
+count = 1
 # loop over the frames of the video
 while True:
 	# grab the current frame and initialize the occupied/unoccupied
 	# text
 	frame_read = vs.read()
-	frame = frame_read[150:500, 350:500]
-	cv2.imshow("crop", frame)
-	frame = frame if args.get("video", None) is None else frame[1]
+	# frame = frame_read[150:500, 350:500]
+	# cv2.imshow("crop", frame)
+	frame = frame_read if args.get("video", None) is None else frame_read[1]
 	text = "Unoccupied"
-
+	
 	# if the frame could not be grabbed, then we have reached the end
 	# of the video
 	if frame is None:
@@ -53,8 +53,21 @@ while True:
 	# compute the absolute difference between the current frame and
 	# first frame
 	# นำ2ภาพมาเทียบแล้วหักลบกัน
-	frameDelta = cv2.absdiff(firstFrame, gray)
-	thresh = cv2.threshold(frameDelta, 1, 255, cv2.THRESH_BINARY)[1]
+
+	#1
+	if count == 1:
+		frameDelta = cv2.absdiff(firstFrame, gray)
+		firstFrame = gray
+		count +=1
+	#3
+	elif count == 500:
+		frameDelta = cv2.absdiff(firstFrame, gray)
+		count = 0
+	#2
+	else:
+		frameDelta = cv2.absdiff(firstFrame, gray)
+		count += 1
+	thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
 	# dilate the thresholded image to fill in holes, then find contours
 	# on thresholded image
@@ -82,15 +95,16 @@ while True:
 	cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
 		(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 	# show the frame and record if the user presses a key
-	# cv2.imshow('firstFrame', firstFrame)
+	cv2.imshow('firstFrame', firstFrame)
 	cv2.imshow("Security Feed", frame)
 	cv2.imshow("Thresh", thresh)
-	# cv2.imshow("Frame Delta", frameDelta)
+	cv2.imshow("Frame Delta", frameDelta)
+	# cv2.imshow("past Frame", pastFrame)
 	key = cv2.waitKey(1) & 0xFF
 	# if the `q` key is pressed, break from the lop
 	if key == ord("q"):
 		break
-
+	
 # cleanup the camera and close any open windows
 vs.stop() if args.get("video", None) is None else vs.release()
 cv2.destroyAllWindows()
