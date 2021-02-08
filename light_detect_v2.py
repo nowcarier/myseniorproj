@@ -16,13 +16,8 @@ if not cap.isOpened():
     print("Cannot open camera")
     exit()
 
-list_points = {}
-ss = 0
-select = []
+
 device = ""
-a = 0
-
-
 def sendData():
     url = 'http://192.168.43.85/get/testGetData'
     myobj = {
@@ -36,7 +31,6 @@ def sendData():
 
 
 draw = True
-r = None
 img_raw = None
 while draw == True:
     a = False
@@ -44,18 +38,22 @@ while draw == True:
     break
 
 ROIs = cv2.selectROIs("Select Rois", img_raw)
-list_of_img = []
-for rect in ROIs:
-    x1 = rect[0]
-    y1 = rect[1]
-    x2 = rect[2]
-    y2 = rect[3]
-    list_of_img.append(x1)
-    list_of_img.append(y1)
-    list_of_img.append(x2)
-    list_of_img.append(y2)
 
-all_list_img_crop = len(list_of_img)
+def getRectangle():
+    list_of_img = []
+    for rect in ROIs:
+        x1 = rect[0]
+        y1 = rect[1]
+        x2 = rect[2]
+        y2 = rect[3]
+        list_of_img.append(x1)
+        list_of_img.append(y1)
+        list_of_img.append(x2)
+        list_of_img.append(y2)
+    return list_of_img
+
+#get number of selectROIS
+all_list_img_crop = len(getRectangle())
 all_list_img_crop = int(all_list_img_crop/4)
 print('Selected number:', all_list_img_crop)
 
@@ -68,20 +66,31 @@ while True:
         print("Can't receive frame (stream end?). Exiting ...")
         break
     
-    # frame = frame[int(list_of_img[1]):int(list_of_img[1]+list_of_img[3]), int(list_of_img[0]):int(list_of_img[0]+list_of_img[2])]
     o = 0
     for i in range(all_list_img_crop):
-        frames = frame[int(list_of_img[1+o]):int(list_of_img[1+o]+list_of_img[3+o]), int(list_of_img[0+o]):int(list_of_img[0+o]+list_of_img[2+o])]
-        x = (list_of_img[0+o] + list_of_img[2+o])
-        y = (list_of_img[1+o] + list_of_img[3+o])
+        frames = frame[int(getRectangle()[1+o]):int(getRectangle()[1+o]+getRectangle()[3+o]), int(getRectangle()[0+o]):int(getRectangle()[0+o]+getRectangle()[2+o])]
+        x = (getRectangle()[0+o] + getRectangle()[2+o])
+        y = (getRectangle()[1+o] + getRectangle()[3+o])
         o += 4
+
+        #get all pixles
         allpix = x*y
-        # print('frame', frames.size)
-        frames = imutils.resize(frames, width=350)
+        # print('allpix:', allpix)
+
+        # resize
+        # frames = imutils.resize(frames, width=350)
+        
         gray = cv2.cvtColor(frames, cv2.COLOR_BGR2GRAY,)
         blurred = cv2.GaussianBlur(gray, (11, 11), 0)
+
+        # This operation takes any pixel value p >= 225 and sets it to 255 (white).
+        # Pixel values < 225 are set to 0 (black).
         thresh = cv2.threshold(blurred, 225, 255, cv2.THRESH_BINARY)[1]
         all_Threshold_pixels = cv2.countNonZero(thresh)
+        Allthresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY)[1]
+        cv2.imshow('Allthresh', Allthresh)
+        Allthresher = cv2.countNonZero(Allthresh)
+        print("{}:%".format((all_Threshold_pixels/Allthresher)*100))
         # print('all_Threshold_pixels', all_Threshold_pixels)
         thresh = cv2.erode(thresh, None, iterations=2)
         thresh = cv2.dilate(thresh, None, iterations=4)
@@ -99,21 +108,22 @@ while True:
             # large, then add it to our mask of "large blobs"
             if numPixels > 200:
                 mask = cv2.add(mask, labelMask)
+            # print('mask:', cv2.countNonZero(mask))
         cnts = cv2.findContours(
             mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         if cnts[1] is None:
             device = 'off'
         else:
             device = 'on'
-        
+
         cv2.putText(frames, "Light Status: {}".format(device), (10, 20),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-        cv2.putText(frames, "%: {}".format((all_Threshold_pixels/allpix)*100), (10, 50),
+        cv2.putText(frames, "%: {}".format((all_Threshold_pixels/Allthresher)*100), (10, 50),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         cv2.putText(frames, "Light No.: {}".format(i+1), (10, 80),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-        
         cv2.imshow("light number {}".format(i+1), frames)
+
     cv2.putText(display, "Selected number: {}".format(all_list_img_crop), (10, 20),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
     cv2.imshow('display', display)
