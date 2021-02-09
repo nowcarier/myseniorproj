@@ -10,8 +10,6 @@ import 'package:bloc_login/login/login_page.dart';
 import 'package:bloc_login/home/home.dart';
 import 'package:bloc_login/common/common.dart';
 
-import 'home/myapp.dart';
-
 class SimpleBlocDelegate extends BlocDelegate {
   @override
   void onEvent(Bloc bloc, Object event) {
@@ -46,7 +44,6 @@ void main() {
 
 class App extends StatelessWidget {
   final UserRepository userRepository;
-
   App({Key key, @required this.userRepository}) : super(key: key);
 
   @override

@@ -11,18 +11,25 @@ class UserDao {
     return result;
   }
 
+  Future getUser(int id) async {
+    final db = await dbProvider.database;
+
+    var currentUser =
+        await db.query(userTable, where: 'id = ?', whereArgs: [id]);
+    return currentUser;
+  }
+
   Future<int> deleteUser(int id) async {
     final db = await dbProvider.database;
-    var result = await db
-        .delete(userTable, where: "id = ?", whereArgs: [id]);
+    var result = await db.delete(userTable, where: "id = ?", whereArgs: [id]);
     return result;
   }
 
   Future<bool> checkUser(int id) async {
     final db = await dbProvider.database;
     try {
-      List<Map> users = await db
-          .query(userTable, where: 'id = ?', whereArgs: [id]);
+      List<Map> users =
+          await db.query(userTable, where: 'id = ?', whereArgs: [id]);
       if (users.length > 0) {
         return true;
       } else {
