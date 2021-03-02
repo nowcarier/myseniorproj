@@ -33,7 +33,6 @@ def sendData():
 draw = True
 img_raw = None
 while draw == True:
-    a = False
     ret, img_raw = cap.read()
     break
 
@@ -68,13 +67,14 @@ while True:
     
     o = 0
     for i in range(all_list_img_crop):
-        frames = frame[int(getRectangle()[1+o]):int(getRectangle()[1+o]+getRectangle()[3+o]), int(getRectangle()[0+o]):int(getRectangle()[0+o]+getRectangle()[2+o])]
+        frames = frame[int(getRectangle()[1+o]):int(getRectangle()[1+o]+getRectangle()[3+o]), 
+        int(getRectangle()[0+o]):int(getRectangle()[0+o]+getRectangle()[2+o])]
         x = (getRectangle()[0+o] + getRectangle()[2+o])
         y = (getRectangle()[1+o] + getRectangle()[3+o])
         o += 4
 
         #get all pixles
-        allpix = x*y
+        # allpix = x*y
         # print('allpix:', allpix)
 
         # resize
@@ -88,9 +88,8 @@ while True:
         thresh = cv2.threshold(blurred, 225, 255, cv2.THRESH_BINARY)[1]
         all_Threshold_pixels = cv2.countNonZero(thresh)
         Allthresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY)[1]
-        cv2.imshow('Allthresh', Allthresh)
         Allthresher = cv2.countNonZero(Allthresh)
-        print("{}:%".format((all_Threshold_pixels/Allthresher)*100))
+        # print("{}:%".format((all_Threshold_pixels/Allthresher)*100))
         # print('all_Threshold_pixels', all_Threshold_pixels)
         thresh = cv2.erode(thresh, None, iterations=2)
         thresh = cv2.dilate(thresh, None, iterations=4)
@@ -102,7 +101,6 @@ while True:
                 continue
             labelMask = np.zeros(thresh.shape, dtype="uint8")
             labelMask[labels == label] = 255
-            # นับจำนวนพิกเซลที่ไม่ใช่ศูนย์ใน labelMask
             numPixels = cv2.countNonZero(labelMask)  # หาค่าที่ไม่ใช่ 0
             # if the number of pixels in the component is sufficiently
             # large, then add it to our mask of "large blobs"
@@ -111,6 +109,7 @@ while True:
             # print('mask:', cv2.countNonZero(mask))
         cnts = cv2.findContours(
             mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
         if cnts[1] is None:
             device = 'off'
         else:
@@ -118,7 +117,7 @@ while True:
 
         cv2.putText(frames, "Light Status: {}".format(device), (10, 20),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-        cv2.putText(frames, "%: {}".format((all_Threshold_pixels/Allthresher)*100), (10, 50),
+        cv2.putText(frames, "%: {0:.2f}".format((all_Threshold_pixels/Allthresher)*100), (10, 50),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         cv2.putText(frames, "Light No.: {}".format(i+1), (10, 80),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
