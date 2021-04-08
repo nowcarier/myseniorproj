@@ -119,7 +119,7 @@
                                                         <input type="hidden" id="id" value={{ i.id }} />
                                                         <input type="hidden" id="is_active" value="1" />
                                                         <input type="hidden" id="is_staff" value="1" />
-                                                        <a href="#" value="1" id="submitButton" class="label theme-bg text-white f-12" onclick='approve("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Approve</a>
+                                                        <a href="#" value="1" id="submitButton" class="label theme-bg text-white f-12" onclick='main("{{ i.id }}", "{{ i.username }}", "{{ i.password }}", "{{ request.user.username }}", "{{ request.user.password }}")'>Approve</a>
                                                         <a href="#" value="1" id="submitButton" class="label theme-bg text-white f-12" onclick='approveToStaff("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Staff</a>
                                                         <a href="#" id="rejectButton" class="label theme-bg2 text-white f-12" onclick='reject("{{ i.id }}")'>Reject</a>
                                                     </form>
@@ -164,209 +164,6 @@
                         </div>
                         <!-- [ statistics year chart ] end -->
                         <!-- [ rating list ] end-->
-                        <div class="col-xl-8 col-md-12 m-b-30">
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Today</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active show" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">This Week</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">All</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>User</th>
-                                                <th>Activity</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                                <th class="text-right"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">The quick brown fox</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">3:28 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-green">Done</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-2.jpg" alt="activity-user">Albert Andersen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">Jumps over the lazy</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">2:37 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-red">Missed</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-3.jpg" alt="activity-user">Silje Larsen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">Dog the quick brown</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">10:23 AM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-purple">Delayed</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">The quick brown fox</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">4:28 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-green">Done</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>User</th>
-                                                <th>Active</th>
-                                                <th>Date joined</th>
-                                                <th>Email</th>
-                                                <th class="text-right"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for i in users%}
-                                                {% comment %} <h3>{{i.datetime}}</h3> {% endcomment %}
-                                                <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-2.jpg" alt="activity-user">{{i.first_name}} {{i.last_name}}</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">{{i.is_active}}</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">{{i.date_joined}}</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-red">{{i.email}}</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>User</th>
-                                                <th>Activity</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                                <th class="text-right"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-3.jpg" alt="activity-user">Silje Larsen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">Dog the quick brown</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">10:23 AM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-purple">Delayed</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">The quick brown fox</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">3:28 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-green">Done</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-2.jpg" alt="activity-user">Albert Andersen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">Jumps over the lazy</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">2:37 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-red">Missed</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="/static/assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">The quick brown fox</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">4:28 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-green">Done</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- [ Main Content ] end -->
                 </div>
@@ -381,7 +178,7 @@
 
 <script>
 setInterval(function(){
-   $.get('http://192.168.43.85/',
+   $.get('http://127.0.0.1:8000/',
         {
             action:'index',
             var:'value'
@@ -392,19 +189,67 @@ setInterval(function(){
             }
         });
 }, 30000) /* time in milliseconds (ie 2 seconds)*/
+var token;
+function tokens(){
+    console.log("tokans");
+    // var url = "http://10.255.131.95:80/api-token-auth/";
+    // const xhr = new XMLHttpRequest();
+    // xhr.open("POST", url);
 
-function approve(id, username, password){
-    var url = "http://192.168.43.85/get/approve/"+ id;
+    // xhr.setRequestHeader("Content-Type", "application/json");
+
+    // xhr.onreadystatechange = function () {
+    // if (xhr.readyState === 4) {
+    //     console.log(xhr.status);
+    //     a = xhr.responseText;
+    //     a = JSON.parse(a)
+    //     token = a;
+    //     // console.log(token["token"]);
+    // }};
+    
+    // var data = {};
+    // data.username = "admin";
+    // data.password = "damnowsir";
+    // datas = data;
+    // xhr.send(JSON.stringify(data));
+    // return token;
+}
+
+function getAdminToken(usernameAdmin, passwordAdmin){
+    var url = "http://127.0.0.1:8000/api-token-auth/";
     const xhr = new XMLHttpRequest();
-    xhr.open("PATCH", url);
+    xhr.open("POST", url);
 
-    xhr.setRequestHeader("Authorization", "TOKEN a0d26264ad1c0e94b9b730f608071b77dadaeda8");
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
         console.log(xhr.status);
-        console.log(xhr.responseText);
+        a = xhr.responseText;
+        a = JSON.parse(a)["token"]
+        token = a;
+        // console.log(token["token"]);
+    }};
+    
+    var data = {
+        username: "admin",
+        password: "damnowsir"
+    };
+    xhr.send(JSON.stringify(data));
+    return token;
+}
+function Approve(token, id, username, password){
+    console.log(token);
+    var url = "http://127.0.0.1:8000/get/approve/"+ id;
+    const xhr = new XMLHttpRequest();
+    xhr.open("PATCH", url);
+    xhr.setRequestHeader("Authorization", "TOKEN "+token);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        console.log(xhr.status);
+        // console.log(xhr.responseText);
     }};
     
     var data = {};
@@ -415,7 +260,7 @@ function approve(id, username, password){
     xhr.send(JSON.stringify(data));
 
 
-    $.get('http://192.168.43.85/',
+    $.get('http://127.0.0.1:8000/',
         {
             action:'index',
             var:'value'
@@ -425,14 +270,22 @@ function approve(id, username, password){
                 $("#RequestUsers").load(" #RequestUsers");
             }
         });
+
 }
 
+async function main(id, username, password, usernameAdmin, passwordAdmin) {
+    token = await getAdminToken(usernameAdmin, passwordAdmin)
+    console.log(usernameAdmin, passwordAdmin);
+    await Approve(token,id,username,password)
+    console.log(getAdminToken(id,username,password));
+    
+}
 function approveToStaff(id, username, password){
-    var url = "http://192.168.43.85/get/approve/"+ id;
+    var url = "http://127.0.0.1:8000/get/approve/"+ id;
     const xhr = new XMLHttpRequest();
     xhr.open("PATCH", url);
 
-    xhr.setRequestHeader("Authorization", "TOKEN a0d26264ad1c0e94b9b730f608071b77dadaeda8");
+    xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onreadystatechange = function () {
@@ -469,7 +322,7 @@ function reject(id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", url);
 
-    xhr.setRequestHeader("Authorization", "TOKEN a0d26264ad1c0e94b9b730f608071b77dadaeda8");
+    xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onreadystatechange = function () {
