@@ -215,29 +215,54 @@ function tokens(){
     // return token;
 }
 
-function getAdminToken(usernameAdmin, passwordAdmin){
-    var url = "https://smartubuapp.herokuapp.com/api-token-auth/";
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", url);
+// function getAdminToken(usernameAdmin, passwordAdmin){
+//     var url = "https://smartubuapp.herokuapp.com/api-token-auth/";
+//     const xhr = new XMLHttpRequest();
+//     xhr.open("POST", url);
 
-    xhr.setRequestHeader("Content-Type", "application/json");
+//     xhr.setRequestHeader("Content-Type", "application/json");
 
-    xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        console.log(xhr.status);
-        a = xhr.responseText;
-        a = JSON.parse(a)["token"]
-        token = a;
-        // console.log(token["token"]);
-    }};
+//     xhr.onreadystatechange = function () {
+//     if (xhr.readyState === 4) {
+//         console.log(xhr.status);
+//         a = xhr.responseText;
+//         a = JSON.parse(a)["token"]
+//         token = a;
+//         // console.log(token["token"]);
+//     }};
     
-    var data = {
-        username: "admin",
-        password: "damnowsir"
-    };
-    xhr.send(JSON.stringify(data));
+//     var data = {
+//         username: "admin",
+//         password: "damnowsir"
+//     };
+//     xhr.send(JSON.stringify(data));
+//     return token;
+// }
+function getAdminToken(usernameAdmin, passwordAdmin){
+    const data = { 
+                    username: 'admin',
+                    password: 'damnowsir' 
+                };
+
+    fetch('https://smartubuapp.herokuapp.com/api-token-auth/', {
+    method: 'POST', // or 'PUT'
+    headers: {
+        'Access-Control-Allow-Origin': 'https://smartubuapp.herokuapp.com',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+    console.log('Success:', data);
+    })
+    .catch((error) => {
+    console.error('Error:', error);
+    });
     return token;
 }
+
 function Approve(token, id, username, password){
     console.log(token);
     var url = "https://smartubuapp.herokuapp.com/get/approve/"+ id;
