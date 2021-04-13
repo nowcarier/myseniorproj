@@ -1,175 +1,198 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Dashboard {% endblock %} 
+{% block title %} Dashboard {% endblock %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
-    <div class="pcoded-content">
-        <div class="pcoded-inner-content">
-            <!-- [ breadcrumb ] start -->
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
 
-            <!-- [ breadcrumb ] end -->
-            <div class="main-body">
-                <div class="page-wrapper">
-                    <!-- [ Main Content ] start -->
-                    <div class="row" id="allstatus">
-                        <!--[ daily sales section ] start-->
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card daily-sales shadow-lg p-3 mb-5 bg-white rounded">
-                                <div class="card-block">
-                                    <h3 class="mb-4 text-c-green">Light Status</h3>
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather text-c-green f-30 m-r-10"></i>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row" id="allstatus">
+                    <!--[ daily sales section ] start-->
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card daily-sales shadow-lg p-3 mb-5 bg-white rounded">
+                            <div class="card-block">
+                                <h3 class="mb-4 text-c-green">Light Status</h3>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-9">
+                                        <h3 class="f-w-300 d-flex align-items-center m-b-0"><i
+                                                class="feather text-c-green f-30 m-r-10"></i>
                                             {% for i in device|slice:":1" %}
-                                                <h3>{{i.light_status}}</h3>
+                                            <h3>{{i.light_status}}</h3>
                                             {% endfor %}
-                                            </h3>
-                                        </div>
-                                        <div class="col-3 text-right">
-                                            <img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/light.png" alt="activity-user">
-                                        </div>
+                                        </h3>
                                     </div>
-                                    <div class="progress m-t-30" style="height: 7px;">
-                                        <div class="progress-bar progress-c-theme" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="col-3 text-right">
+                                        <img class="rounded-circle" style="width:40px;"
+                                            src="/static/assets/images/user/light.png" alt="activity-user">
                                     </div>
+                                </div>
+                                <div class="progress m-t-30" style="height: 7px;">
+                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 50%;"
+                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
-                        <!--[ daily sales section ] end-->
-                        <!--[ Monthly  sales section ] starts-->
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card Monthly-sales shadow-lg p-3 mb-5 bg-white rounded">
-                                <div class="card-block">
-                                    <h3 class="mb-4 text-c-blue">Air Status</h3>
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather text-c-red f-30 m-r-10"></i>
+                    </div>
+                    <!--[ daily sales section ] end-->
+                    <!--[ Monthly  sales section ] starts-->
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card Monthly-sales shadow-lg p-3 mb-5 bg-white rounded">
+                            <div class="card-block">
+                                <h3 class="mb-4 text-c-blue">Air Status</h3>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-9">
+                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i
+                                                class="feather text-c-red f-30 m-r-10"></i>
                                             {% for i in device|slice:":1" %}
-                                                <h3>{{i.air_conditioner_status}}</h3>
-                                            {% endfor %}</h3>
-                                        </div>
-                                        <div class="col-3 text-right">
-                                            <img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/air1.png" alt="activity-user">
-                                        </div>
+                                            <h3>{{i.air_conditioner_status}}</h3>
+                                            {% endfor %}
+                                        </h3>
                                     </div>
-                                    <div class="progress m-t-30" style="height: 7px;">
-                                        <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="col-3 text-right">
+                                        <img class="rounded-circle" style="width:40px;"
+                                            src="/static/assets/images/user/air1.png" alt="activity-user">
                                     </div>
+                                </div>
+                                <div class="progress m-t-30" style="height: 7px;">
+                                    <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 35%;"
+                                        aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
-                        <!--[ Monthly  sales section ] end-->
-                        <!--[ year  sales section ] starts-->
-                        <div class="col-md-12 col-xl-4" >
-                            <div class="card yearly-sales shadow-lg p-3 mb-5 bg-white rounded">
-                                <div class="card-block">
-                                    <h3 class="mb-4 text-c-yellow">Projector Status</h3>
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather text-c-green f-30 m-r-10"></i>
+                    </div>
+                    <!--[ Monthly  sales section ] end-->
+                    <!--[ year  sales section ] starts-->
+                    <div class="col-md-12 col-xl-4">
+                        <div class="card yearly-sales shadow-lg p-3 mb-5 bg-white rounded">
+                            <div class="card-block">
+                                <h3 class="mb-4 text-c-yellow">Projector Status</h3>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-9">
+                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i
+                                                class="feather text-c-green f-30 m-r-10"></i>
                                             {% for i in device|slice:":1" %}
-                                                <h3>{{i.projector_status}}</h3>
-                                            {% endfor %}</h3></h3>
-                                        </div>
-                                        <div class="col-3 text-right">
-                                            <img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/projector.png" alt="activity-user">
-                                        </div>
+                                            <h3>{{i.projector_status}}</h3>
+                                            {% endfor %}
+                                        </h3>
+                                        </h3>
                                     </div>
-                                    <div class="progress m-t-30" style="height: 7px;">
-                                        <div class="progress-bar progress-c-theme" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="col-3 text-right">
+                                        <img class="rounded-circle" style="width:40px;"
+                                            src="/static/assets/images/user/projector.png" alt="activity-user">
                                     </div>
+                                </div>
+                                <div class="progress m-t-30" style="height: 7px;">
+                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 70%;"
+                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
-                        <!--[ year  sales section ] end-->
-                        <!--[ Recent Users ] start-->
-                        <div class="col-xl-8 col-md-6" id = "RequestUsers" >
-                            <div class="card Recent-Users" id = "RequestUsers">
-                                <div class="card-header">
-                                    <h5>Recent Users</h5>
-                                </div>
-                                <div class="card-block px-0 py-3">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <tbody>
-                                                {% for i in users%}
-                                                    {% if i.is_active == False %}
-                                                    <tr class="unread">
-                                                    <td><img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/avatar-1.jpg" alt="activity-user"></td>
-                                                    <td>
-                                                        <h6 class="mb-1">{{i.id}}</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="mb-1">{{i.username}}</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="text-muted"><i class="fas f-10 m-r-15"></i>{{i.date_joined}}</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="text-muted"><i class="fas fa-circle text-c-red f-10 m-r-15"></i>{{i.is_active}}</h6>
-                                                    </td>
-                                                    <td>
+                    </div>
+                    <!--[ year  sales section ] end-->
+                    <!--[ Recent Users ] start-->
+                    <div class="col-xl-8 col-md-6" id="RequestUsers">
+                        <div class="card Recent-Users" id="RequestUsers">
+                            <div class="card-header">
+                                <h5>Recent Users</h5>
+                            </div>
+                            <div class="card-block px-0 py-3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            {% for i in users%}
+                                            {% if i.is_active == False %}
+                                            <tr class="unread">
+                                                <td><img class="rounded-circle" style="width:40px;"
+                                                        src="/static/assets/images/user/avatar-1.jpg"
+                                                        alt="activity-user"></td>
+                                                <td>
+                                                    <h6 class="mb-1">{{i.id}}</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="mb-1">{{i.username}}</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="text-muted"><i
+                                                            class="fas f-10 m-r-15"></i>{{i.date_joined}}</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="text-muted"><i
+                                                            class="fas fa-circle text-c-red f-10 m-r-15"></i>{{i.is_active}}
+                                                    </h6>
+                                                </td>
+                                                <td>
                                                     <form>
                                                         <input type="hidden" id="username" value={{ i.username }} />
                                                         <input type="hidden" id="password" value={{ i.password }} />
                                                         <input type="hidden" id="id" value={{ i.id }} />
                                                         <input type="hidden" id="is_active" value="1" />
                                                         <input type="hidden" id="is_staff" value="1" />
-                                                        <a href="#" value="1" id="submitButton" class="label theme-bg text-white f-12" onclick='main("{{ i.id }}", "{{ i.username }}", "{{ i.password }}", "{{ request.user.username }}", "{{ request.user.password }}")'>Approve</a>
-                                                        <a href="#" value="1" id="submitButton" class="label theme-bg text-white f-12" onclick='approveToStaff("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Staff</a>
-                                                        <a href="#" id="rejectButton" class="label theme-bg2 text-white f-12" onclick='reject("{{ i.id }}")'>Reject</a>
+                                                        <a href="#" value="1" id="submitButton"
+                                                            class="label theme-bg text-white f-12"
+                                                            onclick='main("{{ i.id }}", "{{ i.username }}", "{{ i.password }}", "{{ request.user.username }}", "{{ request.user.password }}")'>Approve</a>
+                                                        <a href="#" value="1" id="submitButton"
+                                                            class="label theme-bg text-white f-12"
+                                                            onclick='approveToStaff("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Staff</a>
+                                                        <a href="#" id="rejectButton"
+                                                            class="label theme-bg2 text-white f-12"
+                                                            onclick='reject("{{ i.id }}")'>Reject</a>
                                                     </form>
-                                                    </td>
-                                                    </tr>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <!--[ Recent Users ] end-->
-
-                        <!-- [ statistics year chart ] start -->
-                        <div class="col-xl-4 col-md-6">
-                        <div class="card">
-                                <div class="card-block border-bottom">
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-auto">
-                                            <i class="feather icon-user-plus f-30 text-c-green"></i>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="f-w-300">{{ countUserRequest }}</h3>
-                                            <span class="d-block text-uppercase">TOTAL Users Request</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-block">
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-auto">
-                                            <i class="feather icon-users f-30 text-c-blue"></i>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="f-w-300">{{countUser}}</h3>
-                                            <span class="d-block text-uppercase">TOTAL All Users</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- [ statistics year chart ] end -->
-                        <!-- [ rating list ] end-->
                     </div>
-                    <!-- [ Main Content ] end -->
+                    <!--[ Recent Users ] end-->
+
+                    <!-- [ statistics year chart ] start -->
+                    <div class="col-xl-4 col-md-6">
+                        <div class="card">
+                            <div class="card-block border-bottom">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto">
+                                        <i class="feather icon-user-plus f-30 text-c-green"></i>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="f-w-300">{{ countUserRequest }}</h3>
+                                        <span class="d-block text-uppercase">TOTAL Users Request</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-block">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto">
+                                        <i class="feather icon-users f-30 text-c-blue"></i>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="f-w-300">{{countUser}}</h3>
+                                        <span class="d-block text-uppercase">TOTAL All Users</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ statistics year chart ] end -->
+                    <!-- [ rating list ] end-->
                 </div>
+                <!-- [ Main Content ] end -->
             </div>
         </div>
     </div>
+</div>
 
 {% endblock content %}
 
@@ -177,203 +200,208 @@
 {% block javascripts %}
 
 <script>
-setInterval(function(){
-   $.get('https://smartubuapp.herokuapp.com/',
-        {
-            action:'index',
-            var:'value'
-        },
-        function(data,status){
-            if(status=='success') {
-                $("#allstatus").load(" #allstatus");
+    setInterval(function () {
+        $.get('https://smartubuapp.herokuapp.com/',
+            {
+                action: 'index',
+                var: 'value'
+            },
+            function (data, status) {
+                if (status == 'success') {
+                    $("#allstatus").load(" #allstatus");
+                }
+            });
+    }, 30000) /* time in milliseconds (ie 2 seconds)*/
+    var token;
+    function tokens() {
+        console.log("tokans");
+        // var url = "http://10.255.131.95:80/api-token-auth/";
+        // const xhr = new XMLHttpRequest();
+        // xhr.open("POST", url);
+
+        // xhr.setRequestHeader("Content-Type", "application/json");
+
+        // xhr.onreadystatechange = function () {
+        // if (xhr.readyState === 4) {
+        //     console.log(xhr.status);
+        //     a = xhr.responseText;
+        //     a = JSON.parse(a)
+        //     token = a;
+        //     // console.log(token["token"]);
+        // }};
+
+        // var data = {};
+        // data.username = "admin";
+        // data.password = "damnowsir";
+        // datas = data;
+        // xhr.send(JSON.stringify(data));
+        // return token;
+    }
+
+    // function getAdminToken(usernameAdmin, passwordAdmin){
+    //     var url = "https://smartubuapp.herokuapp.com/api-token-auth/";
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open("POST", url);
+
+    //     xhr.setRequestHeader("Content-Type", "application/json");
+
+    //     xhr.onreadystatechange = function () {
+    //     if (xhr.readyState === 4) {
+    //         console.log(xhr.status);
+    //         a = xhr.responseText;
+    //         a = JSON.parse(a)["token"]
+    //         token = a;
+    //         // console.log(token["token"]);
+    //     }};
+
+    //     var data = {
+    //         username: "admin",
+    //         password: "damnowsir"
+    //     };
+    //     xhr.send(JSON.stringify(data));
+    //     return token;
+    // }
+
+    function getAdminToken(usernameAdmin, passwordAdmin) {
+        
+        const data = {
+            username: "admin",
+            password: "damnowsir"
+        };
+
+        fetch('https://smartubuapp.herokuapp.com/api-token-auth/', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Access-Control-Allow-Origin': 'https://smartubuapp.herokuapp.com',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        return token;
+    }
+
+    function Approve(token, id, username, password) {
+        console.log(token);
+        var url = "https://smartubuapp.herokuapp.com/get/approve/" + id;
+        const xhr = new XMLHttpRequest();
+        xhr.open("PATCH", url);
+        xhr.setRequestHeader("Authorization", "TOKEN " + token);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                // console.log(xhr.responseText);
             }
-        });
-}, 30000) /* time in milliseconds (ie 2 seconds)*/
-var token;
-function tokens(){
-    console.log("tokans");
-    // var url = "http://10.255.131.95:80/api-token-auth/";
-    // const xhr = new XMLHttpRequest();
-    // xhr.open("POST", url);
+        };
 
-    // xhr.setRequestHeader("Content-Type", "application/json");
-
-    // xhr.onreadystatechange = function () {
-    // if (xhr.readyState === 4) {
-    //     console.log(xhr.status);
-    //     a = xhr.responseText;
-    //     a = JSON.parse(a)
-    //     token = a;
-    //     // console.log(token["token"]);
-    // }};
-    
-    // var data = {};
-    // data.username = "admin";
-    // data.password = "damnowsir";
-    // datas = data;
-    // xhr.send(JSON.stringify(data));
-    // return token;
-}
-
-// function getAdminToken(usernameAdmin, passwordAdmin){
-//     var url = "https://smartubuapp.herokuapp.com/api-token-auth/";
-//     const xhr = new XMLHttpRequest();
-//     xhr.open("POST", url);
-
-//     xhr.setRequestHeader("Content-Type", "application/json");
-
-//     xhr.onreadystatechange = function () {
-//     if (xhr.readyState === 4) {
-//         console.log(xhr.status);
-//         a = xhr.responseText;
-//         a = JSON.parse(a)["token"]
-//         token = a;
-//         // console.log(token["token"]);
-//     }};
-    
-//     var data = {
-//         username: "admin",
-//         password: "damnowsir"
-//     };
-//     xhr.send(JSON.stringify(data));
-//     return token;
-// }
-function getAdminToken(usernameAdmin, passwordAdmin){
-    const data = { 
-                    username: 'admin',
-                    password: 'damnowsir' 
-                };
-
-    fetch('https://smartubuapp.herokuapp.com/api-token-auth/', {
-    method: 'POST', // or 'PUT'
-    headers: {
-        'Access-Control-Allow-Origin': 'https://smartubuapp.herokuapp.com',
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-    console.log('Success:', data);
-    })
-    .catch((error) => {
-    console.error('Error:', error);
-    });
-    return token;
-}
-
-function Approve(token, id, username, password){
-    console.log(token);
-    var url = "https://smartubuapp.herokuapp.com/get/approve/"+ id;
-    const xhr = new XMLHttpRequest();
-    xhr.open("PATCH", url);
-    xhr.setRequestHeader("Authorization", "TOKEN "+token);
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        console.log(xhr.status);
-        // console.log(xhr.responseText);
-    }};
-    
-    var data = {};
-    data.username = username;
-    data.password = password;
-    data.is_active = 1;
-    datas = data;
-    xhr.send(JSON.stringify(data));
+        var data = {};
+        data.username = username;
+        data.password = password;
+        data.is_active = 1;
+        datas = data;
+        xhr.send(JSON.stringify(data));
 
 
-    $.get('https://smartubuapp.herokuapp.com/',
-        {
-            action:'index',
-            var:'value'
-        },
-        function(data,status){
-            if(status=='success') {
-                $("#RequestUsers").load(" #RequestUsers");
+        $.get('https://smartubuapp.herokuapp.com/',
+            {
+                action: 'index',
+                var: 'value'
+            },
+            function (data, status) {
+                if (status == 'success') {
+                    $("#RequestUsers").load(" #RequestUsers");
+                }
+            });
+
+    }
+
+    async function main(id, username, password, usernameAdmin, passwordAdmin) {
+        token = await getAdminToken(usernameAdmin, passwordAdmin)
+        // console.log(usernameAdmin, passwordAdmin);
+        // await Approve(token,id,username,password)
+        // console.log(getAdminToken(id,username,password));
+
+    }
+    function approveToStaff(id, username, password) {
+        var url = "https://smartubuapp.herokuapp.com/get/approve/" + id;
+        const xhr = new XMLHttpRequest();
+        xhr.open("PATCH", url);
+
+        xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
             }
-        });
+        };
 
-}
-
-async function main(id, username, password, usernameAdmin, passwordAdmin) {
-    token = await getAdminToken(usernameAdmin, passwordAdmin)
-    console.log(usernameAdmin, passwordAdmin);
-    await Approve(token,id,username,password)
-    console.log(getAdminToken(id,username,password));
-    
-}
-function approveToStaff(id, username, password){
-    var url = "https://smartubuapp.herokuapp.com/get/approve/"+ id;
-    const xhr = new XMLHttpRequest();
-    xhr.open("PATCH", url);
-
-    xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        console.log(xhr.status);
-        console.log(xhr.responseText);
-    }};
-    
-    var data = {};
-    data.username = username;
-    data.password = password;
-    data.is_active = 1;
-    data.is_staff = 1;
-    datas = data;
-    xhr.send(JSON.stringify(data));
+        var data = {};
+        data.username = username;
+        data.password = password;
+        data.is_active = 1;
+        data.is_staff = 1;
+        datas = data;
+        xhr.send(JSON.stringify(data));
 
 
-    $.get('http://192.168.43.85/',
-        {
-            action:'index',
-            var:'value'
-        },
-        function(data,status){
-            if(status=='success') {
-                $("#RequestUsers").load(" #RequestUsers");
+        $.get('http://192.168.43.85/',
+            {
+                action: 'index',
+                var: 'value'
+            },
+            function (data, status) {
+                if (status == 'success') {
+                    $("#RequestUsers").load(" #RequestUsers");
+                }
+            });
+    }
+
+
+    function reject(id) {
+        // alert(id)
+        var url = "http://192.168.43.85/get/approve/" + id;
+        const xhr = new XMLHttpRequest();
+        xhr.open("DELETE", url);
+
+        xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
             }
-        });
-}
+        };
 
+        var data = {};
+        data.username = username;
+        data.password = password;
+        data.is_active = is_active;
+        datas = data;
+        xhr.send(JSON.stringify(data));
 
-function reject(id) {
-    // alert(id)
-    var url = "http://192.168.43.85/get/approve/"+ id;
-    const xhr = new XMLHttpRequest();
-    xhr.open("DELETE", url);
-
-    xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        console.log(xhr.status);
-        console.log(xhr.responseText);
-    }};
-    
-    var data = {};
-    data.username = username;
-    data.password = password;
-    data.is_active = is_active;
-    datas = data;
-    xhr.send(JSON.stringify(data));
-
-    $.get('http://192.168.43.85/',
-        {
-            action:'index',
-            var:'value'
-        },
-        function(data,status){
-            if(status=='success') {
-                $("#RequestUsers").load(" #RequestUsers");
-            }
-        });
-};
+        $.get('http://192.168.43.85/',
+            {
+                action: 'index',
+                var: 'value'
+            },
+            function (data, status) {
+                if (status == 'success') {
+                    $("#RequestUsers").load(" #RequestUsers");
+                }
+            });
+    };
 
 
 
