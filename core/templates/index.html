@@ -138,13 +138,13 @@
                                                         <input type="hidden" id="is_staff" value="1" />
                                                         <a href="#" value="1" id="submitButton"
                                                             class="label theme-bg text-white f-12"
-                                                            onclick='main("{{ i.id }}", "{{ i.username }}", "{{ i.password }}", "{{ request.user.username }}", "{{ request.user.password }}")'>Approve</a>
+                                                            onclick='GetTokenToApprove("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Approve</a>
                                                         <a href="#" value="1" id="submitButton"
                                                             class="label theme-bg text-white f-12"
-                                                            onclick='approveToStaff("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Staff</a>
+                                                            onclick='GetTokenToStaff("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Staff</a>
                                                         <a href="#" id="rejectButton"
                                                             class="label theme-bg2 text-white f-12"
-                                                            onclick='reject("{{ i.id }}")'>Reject</a>
+                                                            onclick='GetTokenToReject("{{ i.id }}")'>Reject</a>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -200,8 +200,9 @@
 {% block javascripts %}
 
 <script>
+    var MainURL = 'https://smartubuapp.herokuapp.com/';
     setInterval(function () {
-        $.get('https://smartubuapp.herokuapp.com/',
+        $.get(MainURL,
             {
                 action: 'index',
                 var: 'value'
@@ -212,67 +213,18 @@
                 }
             });
     }, 30000) /* time in milliseconds (ie 2 seconds)*/
+
     var token;
-    function tokens() {
-        console.log("tokans");
-        // var url = "http://10.255.131.95:80/api-token-auth/";
-        // const xhr = new XMLHttpRequest();
-        // xhr.open("POST", url);
-
-        // xhr.setRequestHeader("Content-Type", "application/json");
-
-        // xhr.onreadystatechange = function () {
-        // if (xhr.readyState === 4) {
-        //     console.log(xhr.status);
-        //     a = xhr.responseText;
-        //     a = JSON.parse(a)
-        //     token = a;
-        //     // console.log(token["token"]);
-        // }};
-
-        // var data = {};
-        // data.username = "admin";
-        // data.password = "damnowsir";
-        // datas = data;
-        // xhr.send(JSON.stringify(data));
-        // return token;
-    }
-
-    // function getAdminToken(usernameAdmin, passwordAdmin){
-    //     var url = "https://smartubuapp.herokuapp.com/api-token-auth/";
-    //     const xhr = new XMLHttpRequest();
-    //     xhr.open("POST", url);
-
-    //     xhr.setRequestHeader("Content-Type", "application/json");
-
-    //     xhr.onreadystatechange = function () {
-    //     if (xhr.readyState === 4) {
-    //         console.log(xhr.status);
-    //         a = xhr.responseText;
-    //         a = JSON.parse(a)["token"]
-    //         token = a;
-    //         // console.log(token["token"]);
-    //     }};
-
-    //     var data = {
-    //         username: "admin",
-    //         password: "damnowsir"
-    //     };
-    //     xhr.send(JSON.stringify(data));
-    //     return token;
-    // }
-
-    function getAdminToken(usernameAdmin, passwordAdmin) {
-        
+    function GetTokenToApprove(id, username, password) {
         const data = {
-            username: "admin",
-            password: "damnowsir"
+            username: 'admin',
+            password: 'damnowsir'
         };
 
-        fetch('https://smartubuapp.herokuapp.com/api-token-auth/', {
+        fetch(MainURL+'api-token-auth/', {
             method: 'POST', // or 'PUT'
             headers: {
-                'Access-Control-Allow-Origin': 'https://smartubuapp.herokuapp.com',
+                'Access-Control-Allow-Origin': MainURL,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -280,20 +232,46 @@
         })
             .then(response => response.json())
             .then(data => {
+                token = data;
                 console.log('Success:', data);
+                ApproveUser(token,id,username,password)
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-        return token;
     }
+    
+    function GetTokenToReject(id, username, password) {
+        const data = {
+            username: 'admin',
+            password: 'damnowsir'
+        };
 
-    function Approve(token, id, username, password) {
-        console.log(token);
-        var url = "https://smartubuapp.herokuapp.com/get/approve/" + id;
+        fetch(MainURL+'api-token-auth/', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Access-Control-Allow-Origin': MainURL,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                token = data;
+                console.log('Success:', data);
+                reject(token,id)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+    function ApproveUser(token, id, username, password) {
+        console.log(token.token);
+        var url = MainURL+"get/approve/" + id;
         const xhr = new XMLHttpRequest();
         xhr.open("PATCH", url);
-        xhr.setRequestHeader("Authorization", "TOKEN " + token);
+        xhr.setRequestHeader("Authorization", "TOKEN " + token.token);
         xhr.setRequestHeader("Content-Type", "application/json");
 
         xhr.onreadystatechange = function () {
@@ -311,7 +289,7 @@
         xhr.send(JSON.stringify(data));
 
 
-        $.get('https://smartubuapp.herokuapp.com/',
+        $.get(MainURL,
             {
                 action: 'index',
                 var: 'value'
@@ -323,26 +301,43 @@
             });
 
     }
+    function GetTokenToStaff(id, username, password) {
+        const data = {
+            username: 'admin',
+            password: 'damnowsir'
+        };
 
-    async function main(id, username, password, usernameAdmin, passwordAdmin) {
-        token = await getAdminToken(usernameAdmin, passwordAdmin)
-        // console.log(usernameAdmin, passwordAdmin);
-        // await Approve(token,id,username,password)
-        // console.log(getAdminToken(id,username,password));
-
+        fetch(MainURL+'api-token-auth/', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Access-Control-Allow-Origin': MainURL,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                token = data;
+                console.log('Success:', data);
+                approveToStaff(token, id, username, password)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
-    function approveToStaff(id, username, password) {
-        var url = "https://smartubuapp.herokuapp.com/get/approve/" + id;
+    function approveToStaff(token, id, username, password) {
+        console.log(token.token);
+        var url = MainURL+"get/approve/" + id;
         const xhr = new XMLHttpRequest();
         xhr.open("PATCH", url);
-
-        xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
+        xhr.setRequestHeader("Authorization", "TOKEN " + token.token);
         xhr.setRequestHeader("Content-Type", "application/json");
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 console.log(xhr.status);
-                console.log(xhr.responseText);
+                // console.log(xhr.responseText);
             }
         };
 
@@ -355,7 +350,7 @@
         xhr.send(JSON.stringify(data));
 
 
-        $.get('http://192.168.43.85/',
+        $.get(MainURL,
             {
                 action: 'index',
                 var: 'value'
@@ -368,13 +363,14 @@
     }
 
 
-    function reject(id) {
-        // alert(id)
-        var url = "http://192.168.43.85/get/approve/" + id;
+    function reject(token, id) {
+        // console.log(token, id);
+
+        var url = MainURL+"get/approve/" + id;
         const xhr = new XMLHttpRequest();
         xhr.open("DELETE", url);
 
-        xhr.setRequestHeader("Authorization", "TOKEN 43e712041c005264f022ce6e6c08bbb0d79f8e3f");
+        xhr.setRequestHeader("Authorization", "TOKEN " + token.token);
         xhr.setRequestHeader("Content-Type", "application/json");
 
         xhr.onreadystatechange = function () {
@@ -391,7 +387,7 @@
         datas = data;
         xhr.send(JSON.stringify(data));
 
-        $.get('http://192.168.43.85/',
+        $.get(MainURL,
             {
                 action: 'index',
                 var: 'value'
