@@ -2,6 +2,7 @@
 
 {% block title %} Dashboard {% endblock %}
 
+
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
@@ -25,8 +26,8 @@
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center m-b-0"><i
                                                 class="feather text-c-green f-30 m-r-10"></i>
-                                            {% for i in device|slice:":1" %}
-                                            <h3>{{i.light_status}}</h3>
+                                            {% for i in Lights|slice:":1" %}
+                                                <h3>{{i.light_status}}</h3>
                                             {% endfor %}
                                         </h3>
                                     </div>
@@ -79,7 +80,7 @@
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i
                                                 class="feather text-c-green f-30 m-r-10"></i>
-                                            {% for i in device|slice:":1" %}
+                                            {% for i in Projector|slice:":1" %}
                                             <h3>{{i.projector_status}}</h3>
                                             {% endfor %}
                                         </h3>
@@ -201,6 +202,8 @@
 
 <script>
     var MainURL = 'https://smartubuapp.herokuapp.com/';
+    {% comment %} var MainURL = 'http://127.0.0.1:8000/'; {% endcomment %}
+
     setInterval(function () {
         $.get(MainURL,
             {
@@ -212,7 +215,7 @@
                     $("#allstatus").load(" #allstatus");
                 }
             });
-    }, 5) /* time in milliseconds (ie 2 seconds)*/
+    }, 2000) /* time in milliseconds (ie 2 seconds)*/
 
     var token;
     function GetTokenToApprove(id, username, password) {

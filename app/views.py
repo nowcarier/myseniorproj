@@ -10,16 +10,15 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from django import template
 from django.views.decorators.csrf import csrf_exempt
-from app.models import Detail, Event
+from app.models import Detail, Event, Air, Light, Projector
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
-from .serializers import DetailSerializer, EventSerializer, UserSerializer
+from .serializers import DetailSerializer, EventSerializer, UserSerializer, LightSerializer, ProjectorSerializer
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
-
 
 class UserRecordView(APIView):
     """
@@ -84,27 +83,29 @@ def approve(request, pk):
 @csrf_exempt
 @login_required(login_url="/login/")
 def index(request):
-    device = reversed(Detail.objects.all())
+    light = reversed(Light.objects.all())
+    projector = reversed(Projector.objects.all())
     users = User.objects.all()
     usersRequest = User.objects.filter(is_active = False)
 
-    serializer = DetailSerializer(device, many=True)
+    lightSerializer = LightSerializer(light, many=True)
+    projectorSerializer = ProjectorSerializer(projector, many=True)
     serializerUsers = UserSerializer(users, many=True)
     serializerusersRequest = UserSerializer(usersRequest, many=True)
 
     users = serializerUsers.data
-    devices = serializer.data
+    Lights = lightSerializer.data
+    Projectors = projectorSerializer.data
     usersRequests = serializerusersRequest.data
 
-    countObject = len(devices)
     countUser = len(users)
     countUserRequest = len(usersRequests)
-    
+    print()
     context = {
-        'device': devices,
+        'Lights': Lights,
+        'Projector' : Projectors,
         'countUser': countUser,
         'users': users,
-        'countObject': countObject,
         'countUserRequest': countUserRequest
     }
     context['segment'] = 'index'
@@ -178,12 +179,34 @@ def pages(request):
 @csrf_exempt
 def PutData(request):
     if request.method == 'POST':
-        air_conditioner_status =  str(request.POST['air_conditioner_status'])
-        light_status = str(request.POST['light_status'])
-        projector_status = str(request.POST['projector_status'])
-        datetime = str(request.POST['datetime'])
-        ins = Detail(air_conditioner_status = air_conditioner_status, light_status =  light_status, projector_status = projector_status, datetime = datetime)
-        ins.save()
+        # if str(request.POST[]) == 'air_conditioner_status':
+        #     print('AIR')
+        # air_conditioner_status =  str(request.POST['air_conditioner_status'])
+        # light_status = str(request.POST['light_status'])
+        # projector_status = str(request.POST['projector_status'])
+        # datetime = str(request.POST['datetime'])
+        # ins = Detail(air_conditioner_status = air_conditioner_status, light_status =  light_status, projector_status = projector_status, datetime = datetime)
+        # ins.save()
+        if str(request.POST['device_name']) == 'Air':
+            air_conditioner_status =  str(request.POST['status'])
+            datetime = str(request.POST['datetime'])
+            ins = Air(air_conditioner_status = air_conditioner_status, datetime = datetime)
+            ins.save()
+            print("success")
+        
+        if str(request.POST['device_name']) == 'Light':
+            light_status =  str(request.POST['status'])
+            datetime = str(request.POST['datetime'])
+            ins = Light(light_status = light_status, datetime = datetime)
+            ins.save()
+            print("success")
+        
+        if str(request.POST['device_name']) == 'Projector':
+            projector_status =  str(request.POST['status'])
+            datetime = str(request.POST['datetime'])
+            ins = Projector(projector_status = projector_status, datetime = datetime)
+            ins.save()
+            print("success")
         return JsonResponse({'message': 'success'})
 
 
