@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from app.models import Detail, Event, Air, Light, Projector
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
-from .serializers import DetailSerializer, EventSerializer, UserSerializer, LightSerializer, ProjectorSerializer
+from .serializers import DetailSerializer, EventSerializer, UserSerializer, LightSerializer, ProjectorSerializer, AirSerializer
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
@@ -85,17 +85,20 @@ def approve(request, pk):
 def index(request):
     light = reversed(Light.objects.all())
     projector = reversed(Projector.objects.all())
+    air = reversed(Air.objects.all())
     users = User.objects.all()
     usersRequest = User.objects.filter(is_active = False)
 
     lightSerializer = LightSerializer(light, many=True)
     projectorSerializer = ProjectorSerializer(projector, many=True)
+    airSerializer = AirSerializer(air, many=True)
     serializerUsers = UserSerializer(users, many=True)
     serializerusersRequest = UserSerializer(usersRequest, many=True)
 
     users = serializerUsers.data
     Lights = lightSerializer.data
     Projectors = projectorSerializer.data
+    Airs = airSerializer.data
     usersRequests = serializerusersRequest.data
 
     countUser = len(users)
@@ -104,6 +107,7 @@ def index(request):
     context = {
         'Lights': Lights,
         'Projector' : Projectors,
+        'Airs' : Airs,
         'countUser': countUser,
         'users': users,
         'countUserRequest': countUserRequest
@@ -211,10 +215,18 @@ def PutData(request):
 
 
 def getDetail(self, format=None):
-    users = [Detail.objects.latest('timestamp')]
-    serializer = DetailSerializer(users, many=True)
-    print(serializer.data)
-    return JsonResponse(serializer.data[0], safe=False)
+    air = [Air.objects.latest('timestamp')]
+    light = [Light.objects.latest('timestamp')]
+    projector = [Projector.objects.latest('timestamp')]
+
+    airserializer = DetailSerializer(air, many=True)
+    lightserializer = DetailSerializer(light, many=True)
+    projectorserializer = DetailSerializer(projector, many=True)
+
+    allDeivce = [airserializer.data[0], lightserializer.data[0], projectorserializer.data[0]]
+
+    print(allDeivce)
+    return JsonResponse(allDeivce, safe=False)
 
 @csrf_exempt
 def PutEvent(request):

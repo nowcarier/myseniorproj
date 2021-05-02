@@ -26,9 +26,10 @@ PROJECT_DIR = Path(__file__).parent
 SECRET_KEY = config('SECRET_KEY', default='w#5)uj0-p^pqtx4kydp$^ehso#mg58u^u=h#hgn#cm1)2sue_j')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False)
+# DEBUG = config('DEBUG', default=False)
+DEBUG = True
 
-ALLOWED_HOSTS = ['smartubuapp.herokuapp.com', '10.255.131.95', '10.255.65.89', '192.168.43.85']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
