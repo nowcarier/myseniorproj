@@ -226,7 +226,7 @@ def getDetail(self, format=None):
     allDeivce = [airserializer.data[0], lightserializer.data[0], projectorserializer.data[0]]
 
     print(allDeivce)
-    return JsonResponse(allDeivce[1], safe=False)
+    return JsonResponse(allDeivce, safe=False)
 
 @csrf_exempt
 def PutEvent(request):
