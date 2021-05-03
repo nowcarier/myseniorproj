@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:bloc_login/model/api_model.dart';
 
 // final _base = "http://nowsir.herokuapp.com";
-final _base = "http://192.168.1.10";
+final _base = "https://smartubuapp.herokuapp.com";
 final _tokenEndpoint = "/api-token-auth/";
 final _tokenURL = _base + _tokenEndpoint;
 
