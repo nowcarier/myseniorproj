@@ -65,25 +65,6 @@ class Air {
   }
 }
 
-class User {
-  final String name, image;
-
-  User(this.name, this.image);
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    json = json['results'][0];
-    String name = json['name']['first'] + " " + json['name']['last'];
-    String image = json['picture']['large'];
-    return User(name, image);
-  }
-}
-
-Future<User> getUser() async {
-  final response = await http.get("https://randomuser.me/api/");
-  final responseJson = json.decode(response.body);
-  return User.fromJson(responseJson);
-}
-
 Future<Light> fetchLight() async {
   final response =
       await http.get(Uri.https('smartubuapp.herokuapp.com', 'data'));
@@ -171,19 +152,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Light> LightDetail;
 
   Future<Null> _refresh() {
-    // Navigator.pushReplacement(
+    // return Navigator.pushReplacement(
     //   context,
     //   MaterialPageRoute(builder: (context) => Subhomepage()),
     // );
-    return Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Subhomepage()),
-    );
-    // return fetchLight().then((_user) {
-    //   Light user;
-    //       setState(() => user = _user);
-    //       print(user.light_status);
-    // });
+    return Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (a, b, c) => Subhomepage(), transitionDuration: Duration(seconds: 0)));
   }
 
   //
@@ -218,17 +191,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 80,
+                    height: 50,
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                     child: _MainTextStyle('SMART ROOM', 28.0),
                   ),
                   SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 40,
+                    height: 45,
                   ),
                   Stack(
                     children: [

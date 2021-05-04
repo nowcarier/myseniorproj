@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_login/bloc/authentication_bloc.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Homepage extends StatelessWidget {
   Homepage({Key key}) : super(key: key);
@@ -55,39 +54,6 @@ getUser() async {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  var initializationSettingsAndroid =
-      new AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  // newFunction() {
-  //   final current = DateTime.now();
-  //   final startTime = DateTime(2021, 03, 13, 15, 05);
-  //   if (current == startTime) {
-  //     print('yes');
-  //   }
-  // }
-
-  showNotification() async {
-    var scheduledNotificationDateTime =
-        DateTime.now().add(Duration(seconds: 2));
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'channel id',
-      'channel name',
-      'channel description',
-      icon: 'ic_launcher',
-      largeIcon: DrawableResourceAndroidBitmap('ic_launcher'),
-    );
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.schedule(
-        0,
-        'คำเตือน!',
-        'พบอุปกรณ์ไฟไฟยังไม่ปิดใช้งาน!',
-        scheduledNotificationDateTime,
-        platformChannelSpecifics);
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,13 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         child: Column(
           children: <Widget>[
-            GestureDetector(
-              onTap: showNotification,
-              child: Padding(
-                  padding: EdgeInsets.fromLTRB(290.0, 70.0, 0.0, 0.0),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                  )),
+            SizedBox(
+              height: 110,
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
@@ -263,16 +224,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                       SizedBox(
                                         width: 40.5,
                                       ),
-                                      Text(
-                                        'สถานะ',
-                                        style: TextStyle(
-                                            fontFamily: 'Kanit', fontSize: 16),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      CustomPaint(
-                                          painter: DrawCircle(Colors.green)),
+                                      // Text(
+                                      //   'สถานะ',
+                                      //   style: TextStyle(
+                                      //       fontFamily: 'Kanit', fontSize: 16),
+                                      // ),
+                                      // SizedBox(
+                                      //   width: 20,
+                                      // ),
+                                      // CustomPaint(
+                                      //     painter: DrawCircle(Colors.green)),
                                     ],
                                   )
                                 ],
@@ -352,16 +313,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     SizedBox(
                                       width: 40.5,
                                     ),
-                                    Text(
-                                      'สถานะ',
-                                      style: TextStyle(
-                                          fontFamily: 'Kanit', fontSize: 16),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    CustomPaint(
-                                        painter: DrawCircle(Colors.green)),
+                                    // Text(
+                                    //   'สถานะ',
+                                    //   style: TextStyle(
+                                    //       fontFamily: 'Kanit', fontSize: 16),
+                                    // ),
+                                    // SizedBox(
+                                    //   width: 20,
+                                    // ),
+                                    // CustomPaint(
+                                    //     painter: DrawCircle(Colors.green)),
                                   ],
                                 )
                               ],
@@ -445,16 +406,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     SizedBox(
                                       width: 40.5,
                                     ),
-                                    Text(
-                                      'สถานะ',
-                                      style: TextStyle(
-                                          fontFamily: 'Kanit', fontSize: 16),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    CustomPaint(
-                                        painter: DrawCircle(Colors.green)),
+                                    // Text(
+                                    //   'สถานะ',
+                                    //   style: TextStyle(
+                                    //       fontFamily: 'Kanit', fontSize: 16),
+                                    // ),
+                                    // SizedBox(
+                                    //   width: 20,
+                                    // ),
+                                    // CustomPaint(
+                                    //     painter: DrawCircle(Colors.green)),
                                   ],
                                 )
                               ],
@@ -533,16 +494,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     SizedBox(
                                       width: 40.5,
                                     ),
-                                    Text(
-                                      'สถานะ',
-                                      style: TextStyle(
-                                          fontFamily: 'Kanit', fontSize: 16),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    CustomPaint(
-                                        painter: DrawCircle(Colors.green)),
+                                    // Text(
+                                    //   'สถานะ',
+                                    //   style: TextStyle(
+                                    //       fontFamily: 'Kanit', fontSize: 16),
+                                    // ),
+                                    // SizedBox(
+                                    //   width: 20,
+                                    // ),
+                                    // CustomPaint(
+                                    //     painter: DrawCircle(Colors.green)),
                                   ],
                                 )
                               ],
