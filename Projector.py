@@ -14,8 +14,7 @@ sendData = SendData()
 class Projector():
     toCheckProjOn = 0
     toCheckProjOff = 0
-
-    def projector(self, frames):
+    def projector_detect(self, frames):
         hsv = cv2.cvtColor(frames, cv2.COLOR_BGR2HSV)
         boundaries = [
             ([100, 0, 0], [240, 255, 255]),

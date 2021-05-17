@@ -9,7 +9,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 class Light():
-    def light(self, i, frames):
+    def light_detect(self, i, frames):
         gray = cv2.cvtColor(frames, cv2.COLOR_BGR2GRAY,)
         blurred = cv2.GaussianBlur(gray, (11, 11), 0)
         # This operation takes any pixel value p >= 225 and sets it to 255 (white).
