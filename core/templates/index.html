@@ -148,13 +148,9 @@
                                                         <input type="hidden" id="password" value={{ i.password }} />
                                                         <input type="hidden" id="id" value={{ i.id }} />
                                                         <input type="hidden" id="is_active" value="1" />
-                                                        <input type="hidden" id="is_staff" value="1" />
                                                         <a href="#" value="1" id="submitButton"
                                                             class="label theme-bg text-white f-12"
                                                             onclick='GetTokenToApprove("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Approve</a>
-                                                        <a href="#" value="1" id="submitButton"
-                                                            class="label theme-bg text-white f-12"
-                                                            onclick='GetTokenToStaff("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Staff</a>
                                                         <a href="#" id="rejectButton"
                                                             class="label theme-bg2 text-white f-12"
                                                             onclick='GetTokenToReject("{{ i.id }}")'>Reject</a>
@@ -315,66 +311,6 @@
                 }
             });
 
-    }
-    function GetTokenToStaff(id, username, password) {
-        const data = {
-            username: 'admin',
-            password: 'damnowsir'
-        };
-
-        fetch(MainURL+'api-token-auth/', {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Access-Control-Allow-Origin': MainURL,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
-                token = data;
-                console.log('Success:', data);
-                approveToStaff(token, id, username, password)
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }
-    function approveToStaff(token, id, username, password) {
-        console.log(token.token);
-        var url = MainURL+"get/approve/" + id;
-        const xhr = new XMLHttpRequest();
-        xhr.open("PATCH", url);
-        xhr.setRequestHeader("Authorization", "TOKEN " + token.token);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                console.log(xhr.status);
-                // console.log(xhr.responseText);
-            }
-        };
-
-        var data = {};
-        data.username = username;
-        data.password = password;
-        data.is_active = 1;
-        data.is_staff = 1;
-        datas = data;
-        xhr.send(JSON.stringify(data));
-
-
-        $.get(MainURL,
-            {
-                action: 'index',
-                var: 'value'
-            },
-            function (data, status) {
-                if (status == 'success') {
-                    $("#RequestUsers").load(" #RequestUsers");
-                }
-            });
     }
 
 
