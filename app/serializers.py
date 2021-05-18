@@ -1,5 +1,5 @@
 from django.db.models import fields
-from app.models import Detail, Event, Light, Air, Projector
+from app.models import Light, Air, Projector
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
@@ -31,28 +31,6 @@ class UserSerializer(serializers.ModelSerializer):
                 fields=["username", "email"]
             )
         ]
-
-class DetailSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Detail
-        fields = (
-            'id',
-            'air_conditioner_status',
-            'light_status',
-            'projector_status',
-            'datetime',
-            'timestamp',
-        )
-
-class EventSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Event
-        fields = (
-            'uid',
-            'date',
-        )
 
 class LightSerializer(serializers.ModelSerializer):
 

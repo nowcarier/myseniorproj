@@ -10,10 +10,10 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from django import template
 from django.views.decorators.csrf import csrf_exempt
-from app.models import Detail, Event, Air, Light, Projector
+from app.models import Air, Light, Projector
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
-from .serializers import DetailSerializer, EventSerializer, UserSerializer, LightSerializer, ProjectorSerializer, AirSerializer
+from .serializers import UserSerializer, LightSerializer, ProjectorSerializer, AirSerializer
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
@@ -83,9 +83,9 @@ def approve(request, pk):
 @csrf_exempt
 @login_required(login_url="/login/")
 def index(request):
-    light = reversed(Light.objects.all())
-    projector = reversed(Projector.objects.all())
-    air = reversed(Air.objects.all())
+    light = [Light.objects.latest('timestamp')]
+    projector = [Projector.objects.latest('timestamp')]
+    air = [Air.objects.latest('timestamp')]
     users = User.objects.all()
     usersRequest = User.objects.filter(is_active = False)
 
@@ -132,30 +132,6 @@ def getAllUsers(request):
     html_template = loader.get_template( 'ui-users.html')
     return HttpResponse(html_template.render(context, request))
 
-@login_required(login_url="/login/")
-def getAllStaff(request):
-
-    users = User.objects.all()
-    serializerUsers = UserSerializer(users, many=True)
-    users = serializerUsers.data
-    schedule = Event.objects.all()
-    serializerSchedule = EventSerializer(schedule, many=True)
-    schedule = serializerSchedule.data
-    # print(schedule[0]['schedule'])
-    date = []
-    for i in schedule:
-        print(i['date'])
-        date.append(i['date'])
-    countUser = len(users)
-    context = {
-        'countUser': countUser,
-        'users': users,
-        'allschedule': schedule,
-        'date': date,
-    }
-    context['segment'] = 'index'
-    html_template = loader.get_template( 'ui-staff.html')
-    return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
 def pages(request):
@@ -183,14 +159,6 @@ def pages(request):
 @csrf_exempt
 def PutData(request):
     if request.method == 'POST':
-        # if str(request.POST[]) == 'air_conditioner_status':
-        #     print('AIR')
-        # air_conditioner_status =  str(request.POST['air_conditioner_status'])
-        # light_status = str(request.POST['light_status'])
-        # projector_status = str(request.POST['projector_status'])
-        # datetime = str(request.POST['datetime'])
-        # ins = Detail(air_conditioner_status = air_conditioner_status, light_status =  light_status, projector_status = projector_status, datetime = datetime)
-        # ins.save()
         if str(request.POST['device_name']) == 'Air':
             air_conditioner_status =  str(request.POST['status'])
             datetime = str(request.POST['datetime'])
@@ -219,38 +187,14 @@ def getDetail(self, format=None):
     light = [Light.objects.latest('timestamp')]
     projector = [Projector.objects.latest('timestamp')]
 
-    airserializer = DetailSerializer(air, many=True)
-    lightserializer = DetailSerializer(light, many=True)
-    projectorserializer = DetailSerializer(projector, many=True)
+    airserializer = AirSerializer(air, many=True)
+    lightserializer = LightSerializer(light, many=True)
+    projectorserializer = ProjectorSerializer(projector, many=True)
 
     allDeivce = [airserializer.data[0], lightserializer.data[0], projectorserializer.data[0]]
 
     print(allDeivce)
     return JsonResponse(allDeivce, safe=False)
-
-@csrf_exempt
-def PutEvent(request):
-    if request.method == 'POST':
-        # key =  str(request.POST.get('key'))
-        # value = request.POST.getlist('value[]')
-        # ins = Event(uid = key, schedule =  value)
-        # ins.save()
-        rcv = request.POST
-        for i in range(len(rcv)//2):
-            key = int(int(rcv[f'data[{i}][key]']))
-            value = rcv[f'data[{i}][value]']
-            ins = Event(uid = key, date =  value)
-            ins.save()
-            # print(i)
-            # print('data: ', rcv[i])
-        print('data:', request.POST)
-        return JsonResponse({'message': 'success'})
-@csrf_exempt
-def getEvent(self, format=None):
-    events = Event.objects.all()
-    serializer = EventSerializer(events, many=True)
-    print(serializer.data)
-    return JsonResponse(serializer.data, safe=False)
 
 
  
