@@ -39,7 +39,6 @@ class LightSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'light_status',
-            'datetime',
             'timestamp',
         )
 
@@ -50,7 +49,6 @@ class AirSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'air_conditioner_status',
-            'datetime',
             'timestamp',
         )
 
@@ -61,6 +59,5 @@ class ProjectorSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'projector_status',
-            'datetime',
             'timestamp',
         )
