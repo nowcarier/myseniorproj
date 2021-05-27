@@ -85,17 +85,20 @@ def approve(request, pk):
 def index(request):
     light = reversed(Light.objects.all())
     projector = reversed(Projector.objects.all())
+    air = reversed(Air.objects.all())
     users = User.objects.all()
     usersRequest = User.objects.filter(is_active = False)
 
     lightSerializer = LightSerializer(light, many=True)
     projectorSerializer = ProjectorSerializer(projector, many=True)
+    airSerializer = AirSerializer(air, many=True)
     serializerUsers = UserSerializer(users, many=True)
     serializerusersRequest = UserSerializer(usersRequest, many=True)
 
     users = serializerUsers.data
     Lights = lightSerializer.data
     Projectors = projectorSerializer.data
+    Air = airSerializer.data
     usersRequests = serializerusersRequest.data
 
     countUser = len(users)
@@ -104,6 +107,7 @@ def index(request):
     context = {
         'Lights': Lights,
         'Projector' : Projectors,
+        'Air' : Air,
         'countUser': countUser,
         'users': users,
         'countUserRequest': countUserRequest
