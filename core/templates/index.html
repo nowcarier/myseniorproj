@@ -19,19 +19,16 @@
                 <div class="row" id="allstatus">
                     <!--[ daily sales section ] start-->
                     <div class="col-md-6 col-xl-4">
-                        {% for i in Lights|slice:":1" %}
-                        {% if i.light_status == "off" %}
-                        <div class="card daily-sales shadow-lg p-3 mb-5 bg-dark  rounded">
-                        {% else %}
-                        <div class="card daily-sales shadow-lg p-3 mb-5 bg-white  rounded">
-                        {% endif %}
+                        <div class="card daily-sales shadow-lg p-3 mb-5 bg-white rounded">
                             <div class="card-block">
-                                <h3 class="mb-4 text-c-blue">Light Status</h3>
+                                <h3 class="mb-4 text-c-green">Light Status</h3>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center m-b-0"><i
                                                 class="feather text-c-green f-30 m-r-10"></i>
-                                                <h3 class="text-c-green">{{i.light_status}}</h3>
+                                            {% for i in Lights|slice:":1" %}
+                                                <h3>{{i.light_status}}</h3>
+                                            {% endfor %}
                                         </h3>
                                     </div>
                                     <div class="col-3 text-right">
@@ -45,24 +42,20 @@
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
                     <!--[ daily sales section ] end-->
                     <!--[ Monthly  sales section ] starts-->
                     <div class="col-md-6 col-xl-4">
-                                            {% for i in Airs|slice:":1" %}
-                                            {% if i.air_conditioner_status == "off" %}
-                        <div class="card Monthly-sales shadow-lg p-3 mb-5 bg-dark rounded">
-                                            {% else %}
                         <div class="card Monthly-sales shadow-lg p-3 mb-5 bg-white rounded">
-                                            {% endif %}
                             <div class="card-block">
                                 <h3 class="mb-4 text-c-blue">Air Status</h3>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i
                                                 class="feather text-c-red f-30 m-r-10"></i>
-                                                <h3 class="text-c-green">{{i.air_conditioner_status}}</h3>
+                                            {% for i in device|slice:":1" %}
+                                            <h3>{{i.air_conditioner_status}}</h3>
+                                            {% endfor %}
                                         </h3>
                                     </div>
                                     <div class="col-3 text-right">
@@ -75,25 +68,21 @@
                                         aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
-                                            {% endfor %}
                         </div>
                     </div>
                     <!--[ Monthly  sales section ] end-->
                     <!--[ year  sales section ] starts-->
                     <div class="col-md-12 col-xl-4">
-                                            {% for i in Projector|slice:":1" %}
-                                            {% if i.projector_status == "off" %}
-                        <div class="card yearly-sales shadow-lg p-3 mb-5 bg-dark rounded">
-                        {% else %}
                         <div class="card yearly-sales shadow-lg p-3 mb-5 bg-white rounded">
-                        {% endif %}
                             <div class="card-block">
                                 <h3 class="mb-4 text-c-yellow">Projector Status</h3>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i
                                                 class="feather text-c-green f-30 m-r-10"></i>
-                                            <h3 class="text-c-green">{{i.projector_status}}</h3>
+                                            {% for i in Projector|slice:":1" %}
+                                            <h3>{{i.projector_status}}</h3>
+                                            {% endfor %}
                                         </h3>
                                         </h3>
                                     </div>
@@ -107,7 +96,6 @@
                                         aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
-                                            {% endfor %}
                         </div>
                     </div>
                     <!--[ year  sales section ] end-->
@@ -148,9 +136,13 @@
                                                         <input type="hidden" id="password" value={{ i.password }} />
                                                         <input type="hidden" id="id" value={{ i.id }} />
                                                         <input type="hidden" id="is_active" value="1" />
+                                                        <input type="hidden" id="is_staff" value="1" />
                                                         <a href="#" value="1" id="submitButton"
                                                             class="label theme-bg text-white f-12"
                                                             onclick='GetTokenToApprove("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Approve</a>
+                                                        <a href="#" value="1" id="submitButton"
+                                                            class="label theme-bg text-white f-12"
+                                                            onclick='GetTokenToStaff("{{ i.id }}", "{{ i.username }}", "{{ i.password }}")'>Staff</a>
                                                         <a href="#" id="rejectButton"
                                                             class="label theme-bg2 text-white f-12"
                                                             onclick='GetTokenToReject("{{ i.id }}")'>Reject</a>
@@ -311,6 +303,66 @@
                 }
             });
 
+    }
+    function GetTokenToStaff(id, username, password) {
+        const data = {
+            username: 'admin',
+            password: 'damnowsir'
+        };
+
+        fetch(MainURL+'api-token-auth/', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Access-Control-Allow-Origin': MainURL,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                token = data;
+                console.log('Success:', data);
+                approveToStaff(token, id, username, password)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+    function approveToStaff(token, id, username, password) {
+        console.log(token.token);
+        var url = MainURL+"get/approve/" + id;
+        const xhr = new XMLHttpRequest();
+        xhr.open("PATCH", url);
+        xhr.setRequestHeader("Authorization", "TOKEN " + token.token);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                // console.log(xhr.responseText);
+            }
+        };
+
+        var data = {};
+        data.username = username;
+        data.password = password;
+        data.is_active = 1;
+        data.is_staff = 1;
+        datas = data;
+        xhr.send(JSON.stringify(data));
+
+
+        $.get(MainURL,
+            {
+                action: 'index',
+                var: 'value'
+            },
+            function (data, status) {
+                if (status == 'success') {
+                    $("#RequestUsers").load(" #RequestUsers");
+                }
+            });
     }
 
 
