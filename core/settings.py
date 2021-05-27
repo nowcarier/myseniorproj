@@ -26,8 +26,8 @@ PROJECT_DIR = Path(__file__).parent
 SECRET_KEY = config('SECRET_KEY', default='w#5)uj0-p^pqtx4kydp$^ehso#mg58u^u=h#hgn#cm1)2sue_j')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = config('DEBUG', default=False)
-DEBUG = True
+DEBUG = config('DEBUG', default=False)
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
