@@ -164,21 +164,18 @@ def PutData(request):
             datetime = str(request.POST['datetime'])
             ins = Air(air_conditioner_status = air_conditioner_status, datetime = datetime)
             ins.save()
-            print("success")
-        
+
         if str(request.POST['device_name']) == 'Light':
             light_status =  str(request.POST['status'])
             datetime = str(request.POST['datetime'])
             ins = Light(light_status = light_status, datetime = datetime)
             ins.save()
-            print("success")
         
         if str(request.POST['device_name']) == 'Projector':
             projector_status =  str(request.POST['status'])
             datetime = str(request.POST['datetime'])
             ins = Projector(projector_status = projector_status, datetime = datetime)
             ins.save()
-            print("success")
         return JsonResponse({'message': 'success'})
 
 
