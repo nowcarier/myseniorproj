@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from django import template
 from django.views.decorators.csrf import csrf_exempt
-from app.models import Detail, Event, Air, Light, Projector
+from app.models import Detail, Event, Light, Projector, Air
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
 from .serializers import DetailSerializer, EventSerializer, UserSerializer, LightSerializer, ProjectorSerializer, AirSerializer
@@ -98,7 +98,7 @@ def index(request):
     users = serializerUsers.data
     Lights = lightSerializer.data
     Projectors = projectorSerializer.data
-    Air = airSerializer.data
+    Airs = airSerializer.data
     usersRequests = serializerusersRequest.data
 
     countUser = len(users)
@@ -107,7 +107,7 @@ def index(request):
     context = {
         'Lights': Lights,
         'Projector' : Projectors,
-        'Air' : Air,
+        'Airs' : Airs,
         'countUser': countUser,
         'users': users,
         'countUserRequest': countUserRequest
