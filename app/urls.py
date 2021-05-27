@@ -19,6 +19,9 @@ urlpatterns = [
     # The home page
     path('', views.index, name='home'),
     path('users', views.getAllUsers, name='home'),
+    path('staff', views.getAllStaff, name='staff'),
+    path('event', views.getEvent, name='event'),
+    path('PutEvent', views.PutEvent, name='PutEvent'),
     path('PutData', views.PutData, name='testGetData'),
     path('data', views.getDetail, name='getDetail'),
     path('user/', UserRecordView.as_view(), name='users'),
