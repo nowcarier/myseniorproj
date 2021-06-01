@@ -14,10 +14,12 @@ from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import user_passes_test
 
 
 @csrf_exempt
 def login_view(request):
+
     form = LoginForm(request.POST or None)
 
     msg = None
@@ -30,7 +32,10 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("/")
+                if not request.user.is_superuser:
+                    msg = 'The user is not admin'
+                else:
+                    return redirect("/")
             else:    
                 msg = 'Invalid credentials'    
         else:

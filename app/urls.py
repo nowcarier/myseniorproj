@@ -9,7 +9,7 @@ from app import views
 from .views import UserRecordView
 from django.conf.urls import url 
 
-app_name = 'api'
+app_name = 'app'
 urlpatterns = [
     # Matches any html file - to be used for gentella
     # Avoid using your .html in your resources.
@@ -18,7 +18,9 @@ urlpatterns = [
 
     # The home page
     path('', views.index, name='home'),
-    path('testGetData', views.PutData, name='testGetData'),
+    path('users', views.getAllUsers, name='home'),
+    path('staff', views.getAllStaff, name='staff'),
+    path('PutData', views.PutData, name='testGetData'),
     path('data', views.getDetail, name='getDetail'),
     path('user/', UserRecordView.as_view(), name='users'),
     url( r'^approve/(?P<pk>[0-9]+)$', views.approve, name='approve'),

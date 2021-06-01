@@ -10,16 +10,15 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from django import template
 from django.views.decorators.csrf import csrf_exempt
-from app.models import Detail
+from app.models import Detail, Event, Air, Light, Projector
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
-from .serializers import DetailSerializer, UserSerializer
+from .serializers import DetailSerializer, EventSerializer, UserSerializer, LightSerializer, ProjectorSerializer, AirSerializer
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
-
 
 class UserRecordView(APIView):
     """
@@ -77,23 +76,85 @@ def approve(request, pk):
             return JsonResponse(user_serializer.data) 
         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
+    elif request.method == 'DELETE':
+        count = User.objects.get(pk=pk).delete()
+        return JsonResponse({'message': 'deleted user id '+ pk + ' successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
 @csrf_exempt
 @login_required(login_url="/login/")
 def index(request):
-    device = Detail.objects.all()
-    serializer = DetailSerializer(device, many=True)
+    light = [Light.objects.latest('timestamp')]
+    projector = [Projector.objects.latest('timestamp')]
+    air = [Air.objects.latest('timestamp')]
     users = User.objects.all()
+    usersRequest = User.objects.filter(is_active = False)
+
+    lightSerializer = LightSerializer(light, many=True)
+    projectorSerializer = ProjectorSerializer(projector, many=True)
+    airSerializer = AirSerializer(air, many=True)
     serializerUsers = UserSerializer(users, many=True)
+    serializerusersRequest = UserSerializer(usersRequest, many=True)
+
     users = serializerUsers.data
-    devices = serializer.data
+    Lights = lightSerializer.data
+    Projectors = projectorSerializer.data
+    Airs = airSerializer.data
+    usersRequests = serializerusersRequest.data
+
     countUser = len(users)
+    countUserRequest = len(usersRequests)
+    print()
     context = {
-        'device': devices,
+        'Lights': Lights,
+        'Projectors' : Projectors,
+        'Airs' : Airs,
         'countUser': countUser,
-        'users': users
+        'users': users,
+        'countUserRequest': countUserRequest
     }
     context['segment'] = 'index'
     html_template = loader.get_template( 'index.html')
+    return HttpResponse(html_template.render(context, request))
+
+@csrf_exempt
+@login_required(login_url="/login/")
+def getAllUsers(request):
+
+    users = User.objects.all()
+    serializerUsers = UserSerializer(users, many=True)
+    users = serializerUsers.data
+    countUser = len(users)
+    context = {
+        'countUser': countUser,
+        'users': users,
+    }
+    context['segment'] = 'index'
+    html_template = loader.get_template( 'ui-users.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
+def getAllStaff(request):
+
+    users = User.objects.all()
+    serializerUsers = UserSerializer(users, many=True)
+    users = serializerUsers.data
+    schedule = Event.objects.all()
+    serializerSchedule = EventSerializer(schedule, many=True)
+    schedule = serializerSchedule.data
+    # print(schedule[0]['schedule'])
+    date = []
+    for i in schedule:
+        print(i['date'])
+        date.append(i['date'])
+    countUser = len(users)
+    context = {
+        'countUser': countUser,
+        'users': users,
+        'allschedule': schedule,
+        'date': date,
+    }
+    context['segment'] = 'index'
+    html_template = loader.get_template( 'ui-staff.html')
     return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
@@ -122,19 +183,42 @@ def pages(request):
 @csrf_exempt
 def PutData(request):
     if request.method == 'POST':
-        air_conditioner_status =  str(request.POST['air_conditioner_status'])
-        light_status = str(request.POST['light_status'])
-        projector_status = str(request.POST['projector_status'])
-        datetime = str(request.POST['datetime'])
-        ins = Detail(air_conditioner_status = air_conditioner_status, light_status =  light_status, projector_status = projector_status, datetime = datetime)
-        ins.save()
+        if str(request.POST['device_name']) == 'Air':
+            air_conditioner_status =  str(request.POST['status'])
+            datetime = str(request.POST['datetime'])
+            ins = Air(air_conditioner_status = air_conditioner_status, datetime = datetime)
+            ins.save()
+            print("success")
+        
+        if str(request.POST['device_name']) == 'Light':
+            light_status =  str(request.POST['status'])
+            datetime = str(request.POST['datetime'])
+            ins = Light(light_status = light_status, datetime = datetime)
+            ins.save()
+            print("success")
+        
+        if str(request.POST['device_name']) == 'Projector':
+            projector_status =  str(request.POST['status'])
+            datetime = str(request.POST['datetime'])
+            ins = Projector(projector_status = projector_status, datetime = datetime)
+            ins.save()
+            print("success")
+        return JsonResponse({'message': 'success'})
 
 
 def getDetail(self, format=None):
-    users = Detail.objects.all()
-    serializer = DetailSerializer(users, many=True)
-    print(serializer.data)
-    return Response(serializer.data) 
+    air = [Air.objects.latest('timestamp')]
+    light = [Light.objects.latest('timestamp')]
+    projector = [Projector.objects.latest('timestamp')]
+
+    airserializer = AirSerializer(air, many=True)
+    lightserializer = LightSerializer(light, many=True)
+    projectorserializer = ProjectorSerializer(projector, many=True)
+
+    allDeivce = [airserializer.data[0], lightserializer.data[0], projectorserializer.data[0]]
+
+    print(allDeivce)
+    return JsonResponse(allDeivce, safe=False)
 
 
 
