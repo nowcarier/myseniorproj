@@ -10,11 +10,8 @@ Future<Projector> fetchProjector() async {
       await http.get(Uri.https('smartubuapp.herokuapp.com', 'data'));
 
   if (response.statusCode == 200) {
-    // then parse the JSON.
     return Projector.fromJson(jsonDecode(response.body)[2]);
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Failed to load Detail');
   }
 }
@@ -40,11 +37,8 @@ Future<Air> fetchAir() async {
       await http.get(Uri.https('smartubuapp.herokuapp.com', 'data'));
 
   if (response.statusCode == 200) {
-    // then parse the JSON.
     return Air.fromJson(jsonDecode(response.body)[0]);
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Failed to load Detail');
   }
 }
@@ -70,11 +64,8 @@ Future<Light> fetchLight() async {
       await http.get(Uri.https('smartubuapp.herokuapp.com', 'data'));
 
   if (response.statusCode == 200) {
-    // then parse the JSON.
     return Light.fromJson(jsonDecode(response.body)[1]);
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Failed to load Detail');
   }
 }
@@ -96,7 +87,6 @@ class Light {
 }
 
 class Subhomepage extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -141,28 +131,17 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
-  // Future<Null> _refresh() {
-  //   return fetchLight().then((_user) {
-  //     setState(() => user = _user);
-  //   });
-  // }
-
   Future<Projector> ProjectorDetail;
   Future<Air> AirDetail;
   Future<Light> LightDetail;
 
   Future<Null> _refresh() {
-    // return Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => Subhomepage()),
-    // );
     return Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (a, b, c) => Subhomepage(), transitionDuration: Duration(seconds: 0)));
   }
 
   //
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     ProjectorDetail = fetchProjector();

@@ -269,7 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   height: 8,
                                 ),
                                 Text(
-                                  'SC121',
+                                  'SC122',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'Kanit',
@@ -362,7 +362,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   height: 8,
                                 ),
                                 Text(
-                                  'SC121',
+                                  'SC123',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'Kanit',
@@ -450,7 +450,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   height: 8,
                                 ),
                                 Text(
-                                  'SC121',
+                                  'SC124',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'Kanit',
